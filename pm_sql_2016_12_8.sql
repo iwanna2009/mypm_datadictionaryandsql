@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/12/8 15:18:22                           */
+/* Created on:     2016/12/8 17:09:53                           */
 /*==============================================================*/
 
 
@@ -10,7 +10,7 @@
 create table pm_addressbook
 (
    pc_addressbook_id    bigint(20) not null auto_increment,
-   enterprisenumber     varchar(30) not null,
+   propertycompanyid    bigint(20) not null,
    communityInformationid bigint(20) not null,
    username             varchar(6) not null,
    Gender               varchar(2),
@@ -64,7 +64,7 @@ create table pm_base_userright
    userright_id         bigint(20) not null auto_increment,
    user_id              bigint(20) not null,
    menu_id              bigint(20) not null,
-   enterprisenumber     varchar(30) not null,
+   propertycompanyid    bigint(20) not null,
    companyid            bigint(20) not null,
    departmentid         bigint(20) not null,
    create_time          datetime,
@@ -163,7 +163,7 @@ create table pm_city_code
 create table pm_communityInformation
 (
    id                   bigint(20) not null auto_increment,
-   enterprisenumber     varchar(30) not null,
+   propertycompanyid    bigint(20) not null,
    number               varchar(20) not null,
    communityname        varchar(20),
    address              varchar(50),
@@ -193,11 +193,12 @@ create table pm_communityInformation
 create table pm_customcategorysettings
 (
    id                   bigint(20) not null auto_increment,
-   enterprisenumber     varchar(30) not null,
+   propertycompanyid    varchar(30) not null,
    categoryname         varchar(20) not null,
    parentid             bigint(20),
    ordernumber          varchar(10),
    whetherbuiltinidentification bigint(2) default 0,
+   deletemark           bigint(2) default 1,
    primary key (id)
 );
 
@@ -223,7 +224,7 @@ create table pm_customereventmanagement
 create table pm_customeroutmoverecord
 (
    id                   bigint(20) not null auto_increment,
-   enterprisenumber     varchar(30) not null,
+   propertycompanyid    bigint(20) not null,
    communityInformationid bigint(20) not null,
    roomid               bigint(20) not null,
    roomcode             varchar(20),
@@ -251,6 +252,7 @@ create table pm_customsubitem
    keyvalues            varchar(20) not null,
    ordernumber          varchar(10) not null,
    whetherbuiltinidentification bigint(2) default 0,
+   deletemark           bigint(2) default 1,
    primary key (id)
 );
 
@@ -260,7 +262,7 @@ create table pm_customsubitem
 create table pm_employeefileregistration
 (
    id                   bigint(20) not null auto_increment,
-   enterprisenumber     varchar(30) not null,
+   propertycompanyid    bigint(20) not null,
    organizationregistrationid bigint(20),
    employeestatus       bigint(10) not null,
    staffcode            varchar(20) not null,
@@ -305,7 +307,7 @@ create table pm_employeefileregistration
 create table pm_employeetrainingrecord
 (
    id                   bigint(20) not null auto_increment,
-   enterprisenumber     varchar(30) not null,
+   propertycompanyid    bigint(20) not null,
    organizationregistrationid bigint(20),
    employeefileregistrationid bigint(20) not null,
    watercode            varchar(50) not null,
@@ -322,7 +324,7 @@ create table pm_employeetrainingrecord
 create table pm_listofrewardsandpunishments
 (
    id                   bigint(20) not null auto_increment,
-   enterprisenumber     varchar(30) not null,
+   propertycompanyid    bigint(20) not null,
    organizationregistrationid bigint(20),
    employeeid           bigint(20) not null,
    watercode            varchar(50) not null,
@@ -346,7 +348,7 @@ create table pm_loginaccountsettings
    account              varchar(10) not null,
    displayname          varchar(20) not null,
    pwd                  varchar(20) not null default '666666',
-   enterprisenumber     varchar(30) not null,
+   propertycompanyid    bigint(20) not null,
    companyid            bigint(20) not null,
    departmentid         bigint(20) not null,
    userrole             bigint(20),
@@ -433,7 +435,7 @@ create table pm_parametertypedatasheet
 create table pm_postchangeregistration
 (
    id                   bigint(20) not null auto_increment,
-   enterprisenumber     varchar(30) not null,
+   propertycompanyid    varchar(30) not null,
    organizationregistrationid bigint(20),
    employeeid           bigint(20) not null,
    watercode            varchar(50) not null,
@@ -468,11 +470,15 @@ create table pm_propertycompany
    bm_store_img_id      varchar(18),
    bm_store_img_id_u    varchar(200),
    businesslicenseimgurl varchar(200),
-   province_id          varchar(10) not null,
-   city_name            varchar(30) not null,
-   area_id              varchar(10) not null,
-   street_id            varchar(10),
    street_name          varchar(30),
+   province_id          varchar(10) not null,
+   province_name        varchar(30),
+   city_id              varchar(10) not null,
+   city_name            varchar(30) not null,
+   area_id2             varchar(10) not null,
+   area_name            varchar(30),
+   street_id2           varchar(10),
+   street_name2         varchar(30),
    bm_store_addr        varchar(100) not null,
    bm_y                 varchar(20),
    bm_x                 varchar(20),
@@ -510,7 +516,7 @@ create table pm_propertycompany_menu
 (
    id                   bigint(20) not null auto_increment,
    menu_id              bigint(6) not null,
-   enterprisenumber     varchar(30) not null,
+   propertycompanyid    bigint(20) not null,
    menu_state           bigint(2) default 1,
    primary key (id)
 );
@@ -521,7 +527,7 @@ create table pm_propertycompany_menu
 create table pm_roomarchives
 (
    id                   bigint(20) not null auto_increment,
-   enterprisenumber     varchar(30) not null,
+   propertycompanyid    bigint(20) not null,
    communityInformationid bigint(20),
    roomcode             varchar(20) not null,
    builtuparea          decimal(12,4) not null default 0.00,
@@ -561,7 +567,7 @@ create table pm_roomarchives
 create table pm_roomclientfile
 (
    id                   bigint(20) not null auto_increment,
-   enterprisenumber     varchar(30) not null,
+   propertycompanyid    bigint(20) not null,
    communityInformationid bigint(20) not null,
    roomarchives         bigint(20) not null,
    clientproperty       bigint(20) not null,
@@ -637,7 +643,7 @@ create table pm_roomcustomerfamilymembers
 create table pm_roomfileattachmenttable
 (
    id                   bigint(20) not null auto_increment,
-   enterprisenumber     varchar(30) not null,
+   propertycompanyid    bigint(20) not null,
    communityInformationid bigint(20),
    filename             varchar(20) not null,
    uploaddate           datetime not null,
@@ -653,7 +659,7 @@ create table pm_roomfileattachmenttable
 create table pm_staffassessmentregistrationform
 (
    id                   bigint(20) not null auto_increment,
-   enterprisenumber     varchar(30) not null,
+   propertycompanyid    bigint(20) not null,
    employeeid           bigint(20),
    organizationregistrationid bigint(20),
    evaluationperson     varchar(10),
@@ -682,6 +688,8 @@ create table pm_sys_admin
    wx_id                varchar(50),
    wxgzpt_id            varchar(50),
    create_time          datetime,
+   ip                   varchar(50),
+   logintime            datetime,
    primary key (admin_id)
 );
 
@@ -715,6 +723,7 @@ create table pm_sys_menu
 create table pm_warrantysheet
 (
    breakdown_id         bigint(20) not null auto_increment,
+   breakdown_code       varchar(30) not null,
    pc_id                bigint(20) not null,
    breakdown_name       varchar(20) not null,
    breakdown_phone      varchar(20) not null,
